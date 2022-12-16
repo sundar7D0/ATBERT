@@ -6,8 +6,8 @@ Two recent papers that were referenced for this work (ATBert): Parameter Efficie
 ![atbert_architecture](atbert.png)
 
 The above model architecture is inspired from **AVBert**. Modalities could be fused at different levels: early (multi-modal transformer just after audio-CNN), mid (ATBert, AVBert), late (2 uni-modal transformers). Intuitively, an initial common encoder backbone might find it tough to process relatively-raw encoded multi-modal inputs. **Mid-fusion** approach enjoys three advantages: 
-1. learning cross-modal relationship after uni-modal encoders project data to a common sub-space
-2. Being robust to missing modalities, achieving overall the best performance (empirical from AVBert)
+1. Learning cross-modal relationship after uni-modal encoders project data to a common sub-space.
+2. Being robust to missing modalities, achieving overall the best performance (empirical from AVBert).
 3. Flexibility to either pre-train the entire model from scratch or train only multi-modal transformer while using pre-trained BERT (text)/ MusicBERT (audio; has it's own "alignment task and reconstruction" pre-training task) weights which may be sub-optimal (previous work in multimodal visual-and-language tasks point out that using partially fixed Transformers of different modalities is detrimental to multimodal representation learning) but saves on resources.
 
 Audio is pre-processed to **log-mel-scaled spectrograms** (as done in most of the recent works on audio to capture both analog frequency, time content) after which it is passed through a **ResNet-50 CNN** to generate local audio embeddings (as mel spectrums have local inductive bias like images). Same ALBERT-base encoder for 2 uni-modal (audio, text), 1 multi-modal (audio-text) encoding is used to reuse some parameters and reduce resource requirement (as compared to BERT). **Learnable positional embeddings** are used for all encoder inputs and modalitity-specific embeddings are used for multi-modal encoder input.
